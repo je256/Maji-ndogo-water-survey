@@ -1,4 +1,4 @@
-Maji Ndogo water access
+# :earth_africa: Maji Ndogo water access
 
 Table of Content 
 Project aim
@@ -28,13 +28,16 @@ Data Cleaning
 SHOW TABLES;
 
 **Answer**:
+
 ![show_tables_maji_ndogo](https://github.com/user-attachments/assets/089492b3-9192-46a7-bc8d-485df8b13a3f)
 
 #Show columns from the location, visits and water_source table to understand table structure
-SELECT * FROM location LIMIT 5 ;
-SELECT * FROM visits LIMIT 5 ;
-SELECT * FROM water_source LIMIT 5 ;
 
+````sql
+SELECT * FROM location LIMIT 5;
+SELECT * FROM visits LIMIT 5;
+SELECT * FROM water_source LIMIT 5;
+````
 Water_Sources
 Rivers = High risk of contaminants as it an open water source
 Wells = Prone to contamination due to aging infrastructure
