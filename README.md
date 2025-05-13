@@ -33,7 +33,7 @@ SHOW TABLES;
 
 ![show_tables_maji_ndogo](https://github.com/user-attachments/assets/089492b3-9192-46a7-bc8d-485df8b13a3f)
 
-- Show columns from the location, visits and water_source table to understand table structure
+-- Show columns from the location, visits and water_source table to understand table structure
 
 ````sql
 SELECT * FROM location LIMIT 5;
