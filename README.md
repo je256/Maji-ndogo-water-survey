@@ -1,42 +1,44 @@
-# 💧 Maji Ndogo: Data Analytics Case Study  
-*A Structured SQL Analysis of Rural Water Access*
+Maji Ndogo water access
 
----
+Table of Content 
+Project aim
+Objectives
+Key Stakeholders
+Data Cleaning 
+Data 
 
-## 📌 Project Overview
 
-This project analyzes water accessibility in the fictional but data-rich village of **Maji Ndogo**, using SQL to uncover water supply issues, infrastructure challenges, and service inequalities. Over 60,000 records were examined, from water sources to employee records, and the findings are aimed at improving infrastructure planning and emergency response.
+The aim of the project is to evaluate the water access and quality in Maji Ndogo. Improve the water sources and infrasturcture based on data realized from a survey of over 60,000 records.
 
----
+Objectives
+To understand the current state of water access and quality in Maji Ndogo
+To clean up the records and ensure it is viable for analysis
+Assess the quality of water and 
+Draw insights from our data 
+Reduce the time spent waiting in queues to access water 
 
-## 🎯 Objectives
+Key stakeholders
+President Naledi 
+Chike
+Auditors
 
-- Clean and prepare raw survey data
-- Identify broken or misclassified water sources
-- Quantify population served by each type of source
-- Prioritize water infrastructure for repairs using ranking
-- Analyze queue times to improve citizen experience
+Data Cleaning
 
----
+#Showing the list of the all tables in my database
+SHOW TABLES;
 
-## 🗃️ Data Schema (Key Tables)
+**Answer**:
+![show_tables_maji_ndogo](https://github.com/user-attachments/assets/089492b3-9192-46a7-bc8d-485df8b13a3f)
 
-- `employee`: Staff who collected survey data
-- `location`: Geographic details of water source locations
-- `visits`: Logs of survey visits and queue times
-- `water_source`: Types and conditions of water points
-- `well_pollution`: Contamination and biological test results
-- `water_quality`: Labels like "Clean" or "Polluted"
+#Show columns from the location, visits and water_source table to understand table structure
+SELECT * FROM location LIMIT 5 ;
+SELECT * FROM visits LIMIT 5 ;
+SELECT * FROM water_source LIMIT 5 ;
 
----
-
-## 🧼 Part 1: Data Cleaning & Fixes
-
-### ✅ Example: Standardize Emails
-```sql
-UPDATE employee
-SET email = CONCAT(
-  LOWER(REPLACE(employee_name, ' ', '.')),
-  '@ndogowater.gov'
-);
+Water_Sources
+Rivers = High risk of contaminants as it an open water source
+Wells = Prone to contamination due to aging infrastructure
+Tap_in_home = taps in each household serving atleast 6 people
+Shared taps = Taps shared by multiple people in a public area
+Broken taps = Faulty taps in households due to broken infrastructure
 
