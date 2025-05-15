@@ -45,7 +45,7 @@ SELECT * FROM visits LIMIT 5;
 SELECT * FROM water_source LIMIT 5;
 ````
 ### Water_Sources
-- Rivers = High risk of contaminants as they an open water sources
+- Rivers = High risk of contaminants as they are open water sources
 - Wells = Prone to contamination due to ageing infrastructure
 - Tap_in_home = Taps in each household serving at least 6 people
 - Shared taps = Taps shared by multiple people in a public area
@@ -97,4 +97,39 @@ SET
 results = 'Contaminated: Biological'
 WHERE
 biological > 0.01 AND results = 'Clean';
+````
 
+### Employee Contact Errors
+- The employee emails are missing from the email coulumn in the employee table 
+- The email for each employee consists of their first name and last name with a fullstop('.') in between with the domain name 'ndogowater.gov' at the end
+- After creating an email for each employee, it is updated into the email column
+
+````sql
+SELECT
+CONCAT( 
+LOWER(REPLACE(employee_name, ' ', '.')), 'ndogowater.gov') AS new_email
+FROM
+employee;
+UPDATE
+employee
+SET 
+email = CONCAT(LOWER(REPLACE(employee_name, ' ', '.')), 'ndogowater.gov');
+```` 
+- The phone numbers of the employees are stored as strings and have 13 characters because of a trailing space at the end
+- They have to be converted to 12 numerical characters starting with '+99' as area code
+- The trim function is used to remove the trailing space and the new phone numbers are updated to the the phone_number column
+
+````sql
+SELECT
+LENGTH(phone_number)
+FROM
+employee
+;
+SELECT
+RTRIM(LTRIM(phone_number)) AS Trimmed_phone_number
+FROM employee;
+UPDATE 
+employee
+SET phone_number = RTRIM(LTRIM(phone_number))
+;
+````
