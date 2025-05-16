@@ -117,7 +117,7 @@ email = CONCAT(LOWER(REPLACE(employee_name, ' ', '.')), 'ndogowater.gov');
 ```` 
 - The phone numbers of the employees are stored as strings and have 13 characters because of a trailing space at the end
 - They have to be converted to 12 numerical characters starting with '+99' as area code
-- The trim function is used to remove the trailing space and the new phone numbers are updated to the the phone_number column
+- The trim function is used to remove the trailing space and the new phone numbers are updated to the phone_number column
 
 ````sql
 SELECT
@@ -126,10 +126,62 @@ FROM
 employee
 ;
 SELECT
-RTRIM(LTRIM(phone_number)) AS Trimmed_phone_number
+TRIM(phone_number) AS Trimmed_phone_number
 FROM employee;
 UPDATE 
 employee
 SET phone_number = RTRIM(LTRIM(phone_number))
 ;
+````
+Where do the employees live?
+
+````sql
+- Number of employees grouped by town name
+SELECT
+town_name, COUNT(town_name)
+FROM
+employee
+GROUP BY
+town_name;
+````
+![no _of_employees_by_town_name](https://github.com/user-attachments/assets/02be47f7-65a5-42b8-ad8c-bea9f07b92bd)
+
+- Pres. Naledi has directed that emails be sent out congratulating the top 3 field surveyors
+- So, the from the visits_table the assigned ID of top 3 field surveyors can be found by the number of their visits to water sources
+
+````sql
+- Number of visits made by the top 3 employees
+SELECT COUNT(visit_count), assigned_employee_id 
+FROM
+visits
+GROUP BY
+assigned_employee_id 
+ORDER BY COUNT(visit_count) DESC
+LIMIT 3;
+````
+
+![no _of_visits_by_employees](https://github.com/user-attachments/assets/aeb337f3-5e36-4907-a9ee-856cab4064b3)
+
+- The assigned_id is then used to fetch the employee names and emails from the employee_table due to the linked key(assigned_id)
+
+````
+SELECT 
+*
+FROM 
+employee
+WHERE 
+(assigned_employee_id = 1)
+OR
+(assigned_employee_id = 30)
+OR 
+(assigned_employee_id = 34);
+````
+- How many records per town?
+  
+````sql
+SELECT province_name, town_name, COUNT(*) 
+FROM
+location
+GROUP BY
+province_name, town_name;
 ````
