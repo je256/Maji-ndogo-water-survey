@@ -147,7 +147,7 @@ town_name;
 ![no _of_employees_by_town_name](https://github.com/user-attachments/assets/02be47f7-65a5-42b8-ad8c-bea9f07b92bd)
 
 - Pres. Naledi has directed that emails be sent out congratulating the top 3 field surveyors
-- So, the from the visits_table the assigned ID of top 3 field surveyors can be found by the number of their visits to water sources
+- So, from the visits_table, the assigned ID of the top 3 field surveyors can be found by the number of their visits to water sources
 
 ````sql
 - Number of visits made by the top 3 employees
@@ -164,7 +164,7 @@ LIMIT 3;
 
 - The assigned_id is then used to fetch the employee names and emails from the employee_table due to the linked key(assigned_id)
 
-````
+````sql
 SELECT 
 *
 FROM 
@@ -176,6 +176,8 @@ OR
 OR 
 (assigned_employee_id = 34);
 ````
+
+### Water Source analysis
 - How many records per town?
   
 ````sql
@@ -197,7 +199,7 @@ location_type;
 
 ![image](https://github.com/user-attachments/assets/5da8c774-0bff-4ba3-98a7-9131e988496e)
 
-- It is obvious there are much more sources in Rural areas than Urban but to engage more with these values, let's present them in percentages 
+- It is obvious there are many more sources in Rural areas than Urban, but to engage more with these values, let's present them in percentages 
 
 ````sql
 SELECT 23740/(15910+23740)*100;
@@ -206,8 +208,6 @@ SELECT 23740/(15910+23740)*100;
 ![image](https://github.com/user-attachments/assets/9228ec24-76b3-4b21-ae3d-5c64674483d6)
 
 - About 60% of water sources in Maji Ndogo are from Rural areas
-
-### Water Source Analysis
 - How many wells, taps and rivers are there? 
 
 ````sql
@@ -217,10 +217,10 @@ water_source
 GROUP BY
 type_of_water_source;
 ````
+
 ![image](https://github.com/user-attachments/assets/b0bfdfa6-0dc8-4957-b431-52a2de2994fe)
 
-- These presents the sum of each type of water source 
-
+- These present the sum of each type of water source 
 - How many people did we survey in total?
 
 ````sql
@@ -229,6 +229,7 @@ SELECT
 FROM
 water_source;
 ````
+
 - What is the percentage of people served by each water source?
 
 ````sql
@@ -240,14 +241,13 @@ type_of_water_source
 ORDER BY 
 round(sum(number_of_people_served)) DESC;
 ````
+
 ![image](https://github.com/user-attachments/assets/c2bac246-080a-4b33-8d01-f068f52661bc)
 
-- 43% of citizens of Maji Ndogo use public taps, avg of 2000/tap
-- 31% of Maji Ndogo has taps installed at home but (14/31), i.e. 45% are broken due to damaged infrastructure
-- 18% of Maji Ndogo uses well but only 26% of them are clean
-
-- A systemic approach to providing solutions to the water problems in Maji Ndogo is to start with sources affecting most people
-
+- 43% of citizens of Maji Ndogo use public taps, an average of 2000/tap
+- 31% of Maji Ndogo has taps installed at home, but (14/31), i.e. 45% are broken due to damaged infrastructure
+- 18% of Maji Ndogo uses wells, but only 26% of them are clean
+- A systemic approach to providing solutions to the water problems in Maji Ndogo is to start with the sources affecting most people
   
   ````sql
   SELECT 
@@ -267,18 +267,20 @@ How long did the survey take?
 SELECT
 DATEDIFF("2023-07-14", "2021-01-01");
 ````
+
 - I get 924 days
 
 What is the average queue time for water?
+
  ````sql
 SELECT
 avg(nullif(time_in_queue, 0)) as time_waiting
 FROM
 visits;
 ````
-- The average person waits 123 minutes to fetch water from a public source 
 
-What is the average queue time on different days of the week?
+- The average person waits 123 minutes to fetch water from a public source 
+- What is the average queue time on different days of the week?
 
 ````sql
 SELECT
