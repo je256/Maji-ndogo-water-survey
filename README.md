@@ -185,3 +185,50 @@ location
 GROUP BY
 province_name, town_name;
 ````
+How many sources are in the Urban and Rural areas?
+
+````sql
+SELECT location_type, COUNT(*) AS num_sources
+FROM
+location
+GROUP BY
+location_type;
+````
+
+![image](https://github.com/user-attachments/assets/5da8c774-0bff-4ba3-98a7-9131e988496e)
+
+- It is obvious there are much more sources in Rural areas than Urban but to engage more with these values, let's present them in percentages 
+
+````sql
+SELECT 23740/(15910+23740)*100;
+````
+
+![image](https://github.com/user-attachments/assets/9228ec24-76b3-4b21-ae3d-5c64674483d6)
+
+- About 60% of water sources in Maji Ndogo are from Rural areas
+
+### Water Source Analysis
+- How many wells, taps and rivers are there? 
+
+````sql
+SELECT type_of_water_source, COUNT(*) as total_no_per_type
+FROM
+water_source
+GROUP BY
+type_of_water_source;
+````
+![image](https://github.com/user-attachments/assets/b0bfdfa6-0dc8-4957-b431-52a2de2994fe)
+
+- These presents the sum of each type of water source 
+
+- How many people did we survey in total?
+
+````sql
+SELECT 
+	SUM(number_of_people_served) AS Total_survey_number
+FROM
+water_source;
+````
+- What is the average number of people served by each water source?
+
+````sql
