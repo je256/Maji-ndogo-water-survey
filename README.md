@@ -5,7 +5,7 @@
 - [Objectives](#objectives)
 - [Key stakeholders](#key-stakeholders)
 - [Data Cleaning](#data-cleaning)
-- Data 
+- [Data Exploration](#data-exploration)
 
 
 ### Project Aim 
@@ -34,7 +34,8 @@ SHOW TABLES;
 
 **Answer**:
 
-![show_tables_maji_ndogo](https://github.com/user-attachments/assets/089492b3-9192-46a7-bc8d-485df8b13a3f)
+![
+show_tables_maji_ndogo](https://github.com/user-attachments/assets/089492b3-9192-46a7-bc8d-485df8b13a3f)
 
 
 
@@ -100,9 +101,9 @@ biological > 0.01 AND results = 'Clean';
 ````
 
 ### Employee Contact Errors
-- The employee emails are missing from the email coulumn in the employee table 
-- The email for each employee consists of their first name and last name with a fullstop('.') in between with the domain name 'ndogowater.gov' at the end
-- After creating an email for each employee, it is updated into the email column
+- The employee emails are missing from the email column in the employee table 
+- The email for each employee consists of their first name and last name with a fullstop('.') in between, with the domain name 'ndogowater.gov' at the end
+- After creating an email for each employee, it is updated in the email column
 
 ````sql
 SELECT
@@ -147,7 +148,7 @@ town_name;
 ![no _of_employees_by_town_name](https://github.com/user-attachments/assets/02be47f7-65a5-42b8-ad8c-bea9f07b92bd)
 
 - Pres. Naledi has directed that emails be sent out congratulating the top 3 field surveyors
-- So, from the visits_table, the assigned ID of the top 3 field surveyors can be found by the number of their visits to water sources
+- So, from the visits table, the assigned ID of the top 3 field surveyors can be found by the number of their visits to water sources
 
 ````sql
 - Number of visits made by the top 3 employees
@@ -233,7 +234,8 @@ water_source;
 - What is the percentage of people served by each water source?
 
 ````sql
-SELECT type_of_water_source, round((sum(number_of_people_served)/27628140)*100,0) AS percentage_per_source
+SELECT type_of_water_source,
+round((sum(number_of_people_served)/27628140)*100,0) AS percentage_per_source
 FROM 
 water_source
 GROUP BY
@@ -249,8 +251,8 @@ round(sum(number_of_people_served)) DESC;
 - 18% of Maji Ndogo uses wells, but only 26% of them are clean
 - A systemic approach to providing solutions to the water problems in Maji Ndogo is to start with the sources affecting most people
   
-  ````sql
-  SELECT 
+````sql
+SELECT 
 type_of_water_source, 
 round(sum(number_of_people_served)) AS population_served, 
 RANK() OVER (ORDER BY round(sum(number_of_people_served)) DESC) AS RANK_
@@ -272,7 +274,7 @@ DATEDIFF("2023-07-14", "2021-01-01");
 
 What is the average queue time for water?
 
- ````sql
+````sql
 SELECT
 avg(nullif(time_in_queue, 0)) as time_waiting
 FROM
@@ -294,3 +296,14 @@ dayname(time_of_record);
 
 ![image](https://github.com/user-attachments/assets/c0caa27a-500b-4b83-ab8b-bff173ce4834)
 
+At what time of the day do people collect water?
+
+````sql
+SELECT
+time_format(time_of_record, '%H:00') AS hour_of_day , 
+round(avg(nullif(time_in_queue, 0))) as time_waiting 
+FROM
+visits
+GROUP BY
+time_format(time_of_record, '%H:00');
+````
