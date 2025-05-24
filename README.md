@@ -1,10 +1,10 @@
 # :earth_africa: Maji Ndogo water access
 
 ## Table of Contents 
-- Project aim
-- Objectives
-- Key Stakeholders
-- Data Cleaning 
+- [Project Aim](#project-aim)
+- [Objectives](#objectives)
+- [Key stakeholders](#key-stakeholders)
+- [Data Cleaning](#data-cleaning)
 - Data 
 
 
@@ -229,6 +229,66 @@ SELECT
 FROM
 water_source;
 ````
-- What is the average number of people served by each water source?
+- What is the percentage of people served by each water source?
 
 ````sql
+SELECT type_of_water_source, round((sum(number_of_people_served)/27628140)*100,0) AS percentage_per_source
+FROM 
+water_source
+GROUP BY
+type_of_water_source
+ORDER BY 
+round(sum(number_of_people_served)) DESC;
+````
+![image](https://github.com/user-attachments/assets/c2bac246-080a-4b33-8d01-f068f52661bc)
+
+- 43% of citizens of Maji Ndogo use public taps, avg of 2000/tap
+- 31% of Maji Ndogo has taps installed at home but (14/31), i.e. 45% are broken due to damaged infrastructure
+- 18% of Maji Ndogo uses well but only 26% of them are clean
+
+- A systemic approach to providing solutions to the water problems in Maji Ndogo is to start with sources affecting most people
+
+  
+  ````sql
+  SELECT 
+type_of_water_source, 
+round(sum(number_of_people_served)) AS population_served, 
+RANK() OVER (ORDER BY round(sum(number_of_people_served)) DESC) AS RANK_
+FROM  water_source
+GROUP BY type_of_water_source
+ORDER BY RANK_ ASC;
+````
+
+![image](https://github.com/user-attachments/assets/a268e493-e80a-4b3b-9489-06087bd7e011)
+
+How long did the survey take?
+
+````sql
+SELECT
+DATEDIFF("2023-07-14", "2021-01-01");
+````
+- I get 924 days
+
+What is the average queue time for water?
+ ````sql
+SELECT
+avg(nullif(time_in_queue, 0)) as time_waiting
+FROM
+visits;
+````
+- The average person waits 123 minutes to fetch water from a public source 
+
+What is the average queue time on different days of the week?
+
+````sql
+SELECT
+dayname(time_of_record) as day_of_week,
+round(avg(nullif(time_in_queue, 0))) as time_waiting
+FROM
+visits
+group by
+dayname(time_of_record);
+````
+
+![image](https://github.com/user-attachments/assets/c0caa27a-500b-4b83-ab8b-bff173ce4834)
+
