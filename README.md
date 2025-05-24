@@ -4,10 +4,13 @@
 - [Project Aim](#project-aim)
 - [Objectives](#objectives)
 - [Key stakeholders](#key-stakeholders)
-- [Data Cleaning](#data-cleaning)
 - [Data Exploration](#data-exploration)
-
-
+- [Data Cleaning](#data-cleaning)
+- [Key Findings](#key-findings)
+- [Data Integrity](#data-integrity)
+- [Recommendations](#recommendations)
+- [Conclusions](#conclusions)
+  
 ### Project Aim 
 - The project aims to evaluate the water access and quality in Maji Ndogo. Improve the water sources and infrastructure based on data collected from a survey of over 60,000 records.
 
@@ -281,16 +284,17 @@ FROM
 visits;
 ````
 
-- The average person waits 123 minutes to fetch water from a public source 
+- The average person waits 123 minutes to fetch water from a public source
+  
 - What is the average queue time on different days of the week?
 
 ````sql
 SELECT
 dayname(time_of_record) as day_of_week,
-round(avg(nullif(time_in_queue, 0))) as time_waiting
+round(avg(nullif(time_in_queue, 0))) as avg_queue_time
 FROM
 visits
-group by
+GROUP BY
 dayname(time_of_record);
 ````
 
@@ -307,3 +311,4 @@ visits
 GROUP BY
 time_format(time_of_record, '%H:00');
 ````
+## Data Integrity
