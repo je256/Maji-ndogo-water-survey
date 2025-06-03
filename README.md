@@ -248,7 +248,7 @@ round(sum(number_of_people_served)) DESC;
 
 ![image](https://github.com/user-attachments/assets/c2bac246-080a-4b33-8d01-f068f52661bc)
 
-- 43% of citizens of Maji Ndogo use public taps, an average of 2000/tap
+- 43% of citizens of Maji Ndogo use public taps
 - 31% of Maji Ndogo has taps installed at home, but (14/31), i.e. 45% are broken due to damaged infrastructure
 - 18% of Maji Ndogo uses wells, but only 26% of them are clean
 - A systemic approach to providing solutions to the water problems in Maji Ndogo is to start with the sources affecting most people
@@ -265,6 +265,8 @@ ORDER BY RANK_ ASC;
 
 ![image](https://github.com/user-attachments/assets/a268e493-e80a-4b3b-9489-06087bd7e011)
 
+- From the table, over 11 million people are using shared taps, so we average about 2000 people per shared tap
+  
 How long did the survey take?
 
 ````sql
