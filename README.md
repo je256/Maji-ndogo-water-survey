@@ -11,24 +11,23 @@
 - [Recommendations](#recommendations)
 - [Conclusions](#conclusions)
   
-### Project Aim 
+## Project Aim 
 - The project aims to evaluate the water access and quality in Maji Ndogo. Improve the water sources and infrastructure based on data collected from a survey of over 60,000 records.
 
-### Objectives
+## Objectives
 - To understand the current state of water access and quality in Maji Ndogo
 - To clean up the records and ensure it is viable for analysis
 - Assess the quality of water and 
 - Draw insights from our data 
 - Reduce the time spent waiting in queues to access water 
 
-### Key stakeholders
+## Key stakeholders
 - President Naledi 
 - Chike
 - Auditors
 - Field Surveyors
   
 ## Data Exploration
-
 
 ````sql
 --Showing the list of all tables in my database
@@ -39,8 +38,6 @@ SHOW TABLES;
 
 ![
 show_tables_maji_ndogo](https://github.com/user-attachments/assets/089492b3-9192-46a7-bc8d-485df8b13a3f)
-
-
 
 ````sql
 --Show columns from the location, visits and water_source tables to understand the table structure
@@ -68,7 +65,6 @@ water_source;
 ![water_source_unique](https://github.com/user-attachments/assets/2d428ecf-7251-4a92-a163-a10f66d1793b)
 
 ## Data Cleaning 
-
 ### Well Pollution Errors
 - In the pollution table, our sources are classed by description of contaminant, contaminant level and visit results 
 - If the contaminant level, i.e. (biological column) > 0.01, then the results should not report Clean
@@ -76,27 +72,30 @@ water_source;
 
 ![biological_results](https://github.com/user-attachments/assets/a0fdda55-bac8-49d2-adbc-ce680e2b1e1a)
 
+- First, we create a backup table in case there are errors in our code, we can copy a new one and try again
 - From the table, we also notice some descriptions begin with 'Clean' even when the biological contaminant is above 0.01
 - The description column should only have 'Clean' when the biological contaminant is below 0.01.
 - Therefore, 'Clean' has to be removed from all descriptions where the biological > 0.01
 
 ````sql
+CREATE TABLE well_pollution_copy AS
+SELECT * FROM well_pollution;
 --Removes 'Clean' from the description where biological > 0.01
 UPDATE
-well_pollution
+well_pollution_copy
 SET
 description = 'Bacteria: E. coli'
 WHERE
 description = 'Clean Bacteria: E. coli';
 UPDATE
-well_pollution
+well_pollution_copy
 SET
 description = 'Bacteria: Giardia Lamblia'
 WHERE
 description = 'Clean Bacteria: Giardia Lamblia';
 --Updates the results to 'Contaminated: Biological' where biological> 0.01
 UPDATE
-well_pollution
+well_pollution_copy
 SET
 results = 'Contaminated: Biological'
 WHERE
@@ -134,8 +133,7 @@ TRIM(phone_number) AS Trimmed_phone_number
 FROM employee;
 UPDATE 
 employee
-SET phone_number = RTRIM(LTRIM(phone_number))
-;
+SET phone_number = RTRIM(LTRIM(phone_number));
 ````
 Where do the employees live?
 
@@ -181,6 +179,7 @@ OR
 (assigned_employee_id = 34);
 ````
 
+## Key Findings
 ### Water Source analysis
 - How many records per town?
   
@@ -311,4 +310,84 @@ visits
 GROUP BY
 time_format(time_of_record, '%H:00');
 ````
+
+- To break this down further, I would like to view the queue times for each hour in a day for all days of the week
+  
+````sql
+SELECT
+time_format(time_of_record, '%H:00') AS hour_of_day , 
+round(avg(nullif(time_in_queue, 0))) as time_waiting 
+FROM
+visits
+GROUP BY
+time_format(time_of_record, '%H:00') ;
+
+SELECT
+TIME_FORMAT(TIME(time_of_record), '%H:00') AS hour_of_day,
+-- Sunday
+ROUND(AVG(
+CASE 
+WHEN DAYNAME(time_of_record) = 'Sunday' THEN time_in_queue
+ELSE NULL 
+END
+    ),0) AS Sunday,
+-- Monday
+ROUND(AVG(
+CASE
+WHEN DAYNAME(time_of_record) = 'Monday' THEN time_in_queue
+ELSE NULL 
+END
+),0) AS Monday,
+-- Tuesday
+ROUND(AVG(
+CASE
+WHEN DAYNAME(time_of_record) = 'Tuesday' THEN time_in_queue
+ELSE NULL 
+END
+),0) AS Tuesday,
+-- Wednesday
+ROUND(AVG(
+CASE
+WHEN DAYNAME(time_of_record) = 'Wednesday' THEN time_in_queue
+ELSE NULL 
+END
+),0) AS Wednesday,
+-- Thursday
+ROUND(AVG(
+CASE
+WHEN DAYNAME(time_of_record) = 'Thursday' THEN time_in_queue
+ELSE NULL 
+END
+),0) AS Thursday,
+
+-- Friday
+ROUND(AVG(
+CASE
+WHEN DAYNAME(time_of_record) = 'Friday' THEN time_in_queue
+ELSE NULL 
+END
+),0) AS Friday,
+
+-- Saturday
+ROUND(AVG(CASE
+WHEN DAYNAME(time_of_record) = 'Saturday' THEN time_in_queue
+ELSE NULL 
+END
+),0) AS Saturday
+FROM
+visits
+WHERE 
+time_in_queue != 0
+GROUP BY
+hour_of_day
+ORDER BY 
+hour_of_day;
+````
+
+![image](https://github.com/user-attachments/assets/3eb7cafb-ead4-4f03-b107-322aa6e95370)
+
+- From this table, we can understand that Saturday has the longest queue times as that is when people have the most free time 
+- Also, on working days, the averages are higher before 9AM and after 5PM because most of the population should be working between those hours
+- Sunday has the shortest queue times, one could speculate that this may be due to religious or cultural reasons
+  
 ## Data Integrity
