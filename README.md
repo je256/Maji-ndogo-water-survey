@@ -388,8 +388,11 @@ hour_of_day;
 
 ![image](https://github.com/user-attachments/assets/3eb7cafb-ead4-4f03-b107-322aa6e95370)
 
-- From this table, we can understand that Saturday has the longest queue times as that is when people have the most free time 
-- Also, on working days, the averages are higher before 9AM and after 5PM because most of the population should be working between those hours
+- From this table, we can understand that Saturday has the longest queue times, as that is when people have the most free time 
+- Also, on working days, the averages are higher before 9 AM and after 5 PM because most of the population should be working between those hours
 - Sunday has the shortest queue times, one could speculate that this may be due to religious or cultural reasons
   
 ## Data Integrity
+The data was audited, and it revealed some discrepancies between the auditor's score and our original scores 
+
+
