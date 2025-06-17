@@ -497,24 +497,17 @@ ORDER BY
     priority_rank;
 ````
 ## Conclusions
-This analysis revealed:
-Significant water access challenges, particularly in rural areas
-Critical infrastructure needs (shared taps and wells)
-Data integrity issues requiring employee investigation
-Clear patterns in water collection behavior
+- This analysis revealed:
+- Significant water access challenges, particularly in rural areas
+- Critical infrastructure needs (shared taps and wells)
+- Data integrity issues requiring employee investigation
+- Clear patterns in water collection behavior
 
-Recommended next steps:
-Immediate repairs to high-priority sources
-This analysis revealed:
-Significant water access challenges, particularly in rural areas
-Critical infrastructure needs (shared taps and wells)
-Data integrity issues requiring employee investigation
-Clear patterns in water collection behavior
 
-Recommended next steps:
-Immediate repairs to high-priority sources
-Investigation of potentially corrupt employees
-Continued monitoring of water quality
-Expansion of home tap infrastructure long-term
-Continued monitoring of water quality
-Expansion of home tap infrastructure long-term
+### Recommended next steps:
+- Immediate repairs to high-priority sources
+- Investigation of potentially corrupt employees
+- Continued monitoring of water quality
+- Expansion of home tap infrastructure long-term
+- Continued monitoring of water quality
+- Expansion of home tap infrastructure long-term
