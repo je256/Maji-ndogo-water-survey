@@ -406,24 +406,31 @@ CREATE TABLE `auditor_report` (
 `statements` VARCHAR(225)
 );
 ````
-To compare the results in auditor's scores table and water_quality table is not possible as they do not have an intersecting key. The visits table has an intersecting key with auditor's table(location_id) and the water_quality table(records_id), therefore it can be used to link the two.  
-
+- To compare the results in auditor's scores table and water_quality table is not possible as they do not have an intersecting key.
+- The visits table has an intersecting key with auditor's table(location_id) and the water_quality table(records_id), therefore it can be used to link the two.  
+- Due to some of the data being duplicated, I set visits time = 1, and the number of records reduced to 1518.
+- 1518/1600 means it is 94% accurate. The leftover is 6% is 120 people.
+- 
 ````sql
-SELECT
-auditor_report.location_id AS audit_location,
-auditor_report.true_water_source_score,
-visits.location_id AS visit_location,
-visits.record_id
+SELECT 
+auditor_report.location_id,
+visits.record_id,
+auditor_report.true_water_source_score AS auditor_score,
+water_quality.subjective_quality_score AS surveryor_score
 FROM
 auditor_report
 JOIN
 visits
 ON auditor_report.location_id = visits.location_id
-WHERE visits..visitcount =1;
+JOIN
+water_quality
+ON visits.record_id = water_quality.record_id
+WHERE
+auditor_report.true_water_source_score != water_quality.subjective_quality_score
+AND
+visits.visit_count = 1;
 ````
 
-Due to some of the data being duplicated, I set visits time = 1, and the number of records reduced to 1518.
-1518/1600 means it is 94% accurate. The leftover is 6% is 120 people.
 
 ````sql
 -- Create view for incorrect records
@@ -461,22 +468,21 @@ suspect_list AS (
 SELECT * FROM suspect_list;
 ````
 FINDINGS
-94% of records matched auditor scores (1518/1620)
-102 records had discrepancies
-4 employees made significantly more "mistakes" than average
-These employees had statements mentioning "cash" (potential bribery)
+- 94% of records matched auditor scores (1518/1620)
+- 102 records had discrepancies
+- 4 employees made significantly more "mistakes" than average
+- These employees had statements mentioning "cash" (potential bribery)
 
 ## Recommendations
-Based on impact analysis, recommended repair priorities:
-
-Shared taps (affects 43% of population)
-Install additional taps to reduce queue times
-Send water tankers during peak times
-Wells (affects 18% of population)
-Install UV filters for biological contamination
-Install reverse osmosis for chemical pollution
-Broken home taps
-Repair infrastructure serving multiple homes
+- Based on impact analysis, recommended repair priorities:
+- Shared taps (affects 43% of population)
+- Install additional taps to reduce queue times
+- Send water tankers during peak times
+- Wells (affects 18% of population)
+- Install UV filters for biological contamination
+- Install reverse osmosis for chemical pollution
+- Broken home taps
+- Repair infrastructure serving multiple homes
 
 ````sql
 -- Priority ranking of sources needing improvement
