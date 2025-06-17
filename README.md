@@ -393,6 +393,128 @@ hour_of_day;
 - Sunday has the shortest queue times, one could speculate that this may be due to religious or cultural reasons
   
 ## Data Integrity
-The data was audited, and it revealed some discrepancies between the auditor's score and our original scores 
+The data was audited, and it revealed some discrepancies between the auditor's score and our original scores
+Firstly, to make sure we had the same names when importing audit files
 
+````sql
+DROP TABLE IF EXISTS `auditor_report`;
 
+CREATE TABLE `auditor_report` (
+`location_id` VARCHAR(32),
+`type_of_water` VARCHAR(64),
+`true_water_source_score` int DEFAULT NULL,
+`statements` VARCHAR(225)
+);
+````
+To compare the results in auditor's scores table and water_quality table is not possible as they do not have an intersecting key. The visits table has an intersecting key with auditor's table(location_id) and the water_quality table(records_id), therefore it can be used to link the two.  
+
+````sql
+SELECT
+auditor_report.location_id AS audit_location,
+auditor_report.true_water_source_score,
+visits.location_id AS visit_location,
+visits.record_id
+FROM
+auditor_report
+JOIN
+visits
+ON auditor_report.location_id = visits.location_id
+WHERE visits..visitcount =1;
+````
+
+Due to some of the data being duplicated, I set visits time = 1, and the number of records reduced to 1518.
+1518/1600 means it is 94% accurate. The leftover is 6% is 120 people.
+
+````sql
+-- Create view for incorrect records
+CREATE VIEW Incorrect_records AS (
+    SELECT
+        ar.location_id,
+        v.record_id,
+        e.employee_name,
+        ar.true_water_source_score AS auditor_score,
+        wq.subjective_quality_score AS surveyor_score,
+        ar.statements
+    FROM auditor_report ar
+    JOIN visits v ON ar.location_id = v.location_id
+    JOIN water_quality wq ON v.record_id = wq.record_id
+    JOIN employee e ON e.assigned_employee_id = v.assigned_employee_id
+    WHERE v.visit_count = 1
+    AND ar.true_water_source_score != wq.subjective_quality_score
+);
+
+-- Analyze error patterns by employee
+WITH error_count AS (
+    SELECT
+        employee_name,
+        COUNT(employee_name) AS number_of_mistakes
+    FROM Incorrect_records
+    GROUP BY employee_name
+),
+suspect_list AS (
+    SELECT
+        employee_name,
+        number_of_mistakes
+    FROM error_count
+    WHERE number_of_mistakes > (SELECT AVG(number_of_mistakes) FROM error_count)
+)
+SELECT * FROM suspect_list;
+````
+FINDINGS
+94% of records matched auditor scores (1518/1620)
+102 records had discrepancies
+4 employees made significantly more "mistakes" than average
+These employees had statements mentioning "cash" (potential bribery)
+
+## Recommendations
+Based on impact analysis, recommended repair priorities:
+
+Shared taps (affects 43% of population)
+Install additional taps to reduce queue times
+Send water tankers during peak times
+Wells (affects 18% of population)
+Install UV filters for biological contamination
+Install reverse osmosis for chemical pollution
+Broken home taps
+Repair infrastructure serving multiple homes
+
+````sql
+-- Priority ranking of sources needing improvement
+SELECT 
+    ws.source_id,
+    ws.type_of_water_source,
+    ws.number_of_people_served,
+    RANK() OVER (PARTITION BY ws.type_of_water_source 
+                 ORDER BY ws.number_of_people_served DESC) AS priority_rank
+FROM water_source ws
+WHERE ws.type_of_water_source IN ('shared_tap', 'well', 'tap_in_home_broken')
+ORDER BY 
+    CASE 
+        WHEN ws.type_of_water_source = 'shared_tap' THEN 1
+        WHEN ws.type_of_water_source = 'well' THEN 2
+        ELSE 3
+    END,
+    priority_rank;
+````
+## Conclusions
+This analysis revealed:
+Significant water access challenges, particularly in rural areas
+Critical infrastructure needs (shared taps and wells)
+Data integrity issues requiring employee investigation
+Clear patterns in water collection behavior
+
+Recommended next steps:
+Immediate repairs to high-priority sources
+This analysis revealed:
+Significant water access challenges, particularly in rural areas
+Critical infrastructure needs (shared taps and wells)
+Data integrity issues requiring employee investigation
+Clear patterns in water collection behavior
+
+Recommended next steps:
+Immediate repairs to high-priority sources
+Investigation of potentially corrupt employees
+Continued monitoring of water quality
+Expansion of home tap infrastructure long-term
+Continued monitoring of water quality
+Expansion of home tap infrastructure long-term
