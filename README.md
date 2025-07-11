@@ -405,13 +405,14 @@ CREATE TABLE `auditor_report` (
 `true_water_source_score` int DEFAULT NULL,
 `statements` VARCHAR(225)
 );
+
 ````
 - To compare the results in auditor's scores table and water_quality table is not possible as they do not have an intersecting key.
 - The visits table has an intersecting key with auditor's table(location_id) and the water_quality table(records_id), therefore it can be used to link the two.  
 - Due to some of the data being duplicated, I set visits time = 1, and the number of records reduced to 1518.
 - 1518/1600 means it is 94% accurate. The leftover is 6% is 120 people.
-- 
 ````sql
+
 SELECT 
 auditor_report.location_id,
 visits.record_id,
@@ -430,48 +431,6 @@ auditor_report.true_water_source_score != water_quality.subjective_quality_score
 AND
 visits.visit_count = 1;
 ````
-
-
-````sql
--- Create view for incorrect records
-CREATE VIEW Incorrect_records AS (
-    SELECT
-        ar.location_id,
-        v.record_id,
-        e.employee_name,
-        ar.true_water_source_score AS auditor_score,
-        wq.subjective_quality_score AS surveyor_score,
-        ar.statements
-    FROM auditor_report ar
-    JOIN visits v ON ar.location_id = v.location_id
-    JOIN water_quality wq ON v.record_id = wq.record_id
-    JOIN employee e ON e.assigned_employee_id = v.assigned_employee_id
-    WHERE v.visit_count = 1
-    AND ar.true_water_source_score != wq.subjective_quality_score
-);
-
--- Analyze error patterns by employee
-WITH error_count AS (
-    SELECT
-        employee_name,
-        COUNT(employee_name) AS number_of_mistakes
-    FROM Incorrect_records
-    GROUP BY employee_name
-),
-suspect_list AS (
-    SELECT
-        employee_name,
-        number_of_mistakes
-    FROM error_count
-    WHERE number_of_mistakes > (SELECT AVG(number_of_mistakes) FROM error_count)
-)
-SELECT * FROM suspect_list;
-````
-FINDINGS
-- 94% of records matched auditor scores (1518/1620)
-- 102 records had discrepancies
-- 4 employees made significantly more "mistakes" than average
-- These employees had statements mentioning "cash" (potential bribery)
 
 ## Recommendations
 - Based on impact analysis, recommended repair priorities:
