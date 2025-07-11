@@ -443,24 +443,6 @@ visits.visit_count = 1;
 - Broken home taps
 - Repair infrastructure serving multiple homes
 
-````sql
--- Priority ranking of sources needing improvement
-SELECT 
-    ws.source_id,
-    ws.type_of_water_source,
-    ws.number_of_people_served,
-    RANK() OVER (PARTITION BY ws.type_of_water_source 
-                 ORDER BY ws.number_of_people_served DESC) AS priority_rank
-FROM water_source ws
-WHERE ws.type_of_water_source IN ('shared_tap', 'well', 'tap_in_home_broken')
-ORDER BY 
-    CASE 
-        WHEN ws.type_of_water_source = 'shared_tap' THEN 1
-        WHEN ws.type_of_water_source = 'well' THEN 2
-        ELSE 3
-    END,
-    priority_rank;
-````
 ## Conclusions
 - This analysis revealed:
 - Significant water access challenges, particularly in rural areas
