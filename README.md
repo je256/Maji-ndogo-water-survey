@@ -12,18 +12,18 @@
 - [Conclusions](#conclusions)
   
 ## Project Aim 
-- The project aims to evaluate the water access and quality in Maji Ndogo. Improve the water sources and infrastructure based on data collected from a survey of over 60,000 records.
+- The project aims to evaluate the water access and quality in Sub-saharan. Improve the water sources and infrastructure based on data collected from a survey of over 60,000 records.
 
 ## Objectives
-- To understand the current state of water access and quality in Maji Ndogo
+- To understand the current state of water access and quality in sub-saharan Africa
 - To clean up the records and ensure it is viable for analysis
-- Assess the quality of water and 
+- Assess the quality of water
 - Draw insights from our data 
 - Reduce the time spent waiting in queues to access water 
 
 ## Key stakeholders
-- President Naledi 
-- Chike
+- President Akpan 
+- Ofonime
 - Auditors
 - Field Surveyors
   
