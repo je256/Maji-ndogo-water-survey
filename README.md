@@ -148,7 +148,7 @@ town_name;
 ````
 ![no _of_employees_by_town_name](https://github.com/user-attachments/assets/02be47f7-65a5-42b8-ad8c-bea9f07b92bd)
 
-- Pres. Naledi has directed that emails be sent out congratulating the top 3 field surveyors
+- Pres. Akpan has directed that emails be sent out congratulating the top 3 field surveyors
 - So, from the visits table, the assigned ID of the top 3 field surveyors can be found by the number of their visits to water sources
 
 ````sql
