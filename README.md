@@ -1,4 +1,4 @@
-# :earth_africa: Maji Ndogo Water Survey
+# :earth_africa: Water Survey - Sub-saharan Africa
 
 ## Table of Contents 
 - [Project Aim](#project-aim)
