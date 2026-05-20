@@ -37,7 +37,7 @@ SHOW TABLES;
 **Answer**:
 
 ![
-show_tables_maji_ndogo](https://github.com/user-attachments/assets/089492b3-9192-46a7-bc8d-485df8b13a3f)
+show_tables_Sub_saharan_africa](https://github.com/user-attachments/assets/089492b3-9192-46a7-bc8d-485df8b13a3f)
 
 ````sql
 --Show columns from the location, visits and water_source tables to understand the table structure
