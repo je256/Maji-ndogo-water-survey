@@ -1,4 +1,4 @@
-# :earth_africa: Water Survey - Ikot-abasi 
+# :earth_africa: Water Survey - Ikot-Abasi 
 
 ## Table of Contents 
 - [Project Aim](#project-aim)
@@ -12,10 +12,10 @@
 - [Conclusions](#conclusions)
   
 ## Project Aim 
-- The project aims to evaluate the water access and quality in ikot-abasi. Improve the water sources and infrastructure based on data collected from a survey of over 60,000 records.
+- The project aims to evaluate the water access and quality in Ikot-Abasi. Improve the water sources and infrastructure based on data collected from a survey of over 60,000 records.
 
 ## Objectives
-- To understand the current state of water access and quality in ikot-abasi Africa
+- To understand the current state of water access and quality in Ikot-Abasi
 - To clean up the records and ensure it's viable for analysis
 - Assess the quality of water
 - Draw insights from our data 
@@ -37,7 +37,7 @@ SHOW TABLES;
 **Answer**:
 
 ![
-show_tables_Sub_saharan_africa](https://github.com/user-attachments/assets/089492b3-9192-46a7-bc8d-485df8b13a3f)
+show_tables_Ikot Abasi](https://github.com/user-attachments/assets/089492b3-9192-46a7-bc8d-485df8b13a3f)
 
 ````sql
 --Show columns from the location, visits and water_source tables to understand the table structure
@@ -210,7 +210,7 @@ SELECT 23740/(15910+23740)*100;
 
 ![image](https://github.com/user-attachments/assets/9228ec24-76b3-4b21-ae3d-5c64674483d6)
 
-- About 60% of water sources in ikot-abasi are from Rural areas
+- About 60% of water sources in Ikot-Abasi are from Rural areas
 - How many wells, taps and rivers are there? 
 
 ````sql
@@ -248,10 +248,10 @@ round(sum(number_of_people_served)) DESC;
 
 ![image](https://github.com/user-attachments/assets/c2bac246-080a-4b33-8d01-f068f52661bc)
 
-- 43% of citizens of ikot-abasi use public taps
-- 31% of ikot-abasi has taps installed at home, but (14/31), i.e. 45% are broken due to damaged infrastructure
-- 18% of ikot-abasi uses wells, but only 26% of them are clean
-- A systemic approach to providing solutions to the water problems in ikot-abasi is to start with the sources affecting most people
+- 43% of citizens of Ikot-Abasi use public taps
+- 31% of Ikot-Abasi has taps installed at home, but (14/31), i.e. 45% are broken due to damaged infrastructure
+- 18% of Ikot-Abasi uses wells, but only 26% of them are clean
+- A systemic approach to providing solutions to the water problems in Ikot-Abasi is to start with the sources affecting most people
   
 ````sql
 SELECT 
