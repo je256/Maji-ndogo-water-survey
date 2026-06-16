@@ -1,4 +1,4 @@
-# :earth_africa: Water Survey - Sub-saharan Africa
+# :earth_africa: Water Survey - Ikot-abasi 
 
 ## Table of Contents 
 - [Project Aim](#project-aim)
@@ -12,11 +12,11 @@
 - [Conclusions](#conclusions)
   
 ## Project Aim 
-- The project aims to evaluate the water access and quality in Sub-saharan. Improve the water sources and infrastructure based on data collected from a survey of over 60,000 records.
+- The project aims to evaluate the water access and quality in ikot-abasi. Improve the water sources and infrastructure based on data collected from a survey of over 60,000 records.
 
 ## Objectives
-- To understand the current state of water access and quality in sub-saharan Africa
-- To clean up the records and ensure it is viable for analysis
+- To understand the current state of water access and quality in ikot-abasi Africa
+- To clean up the records and ensure it's viable for analysis
 - Assess the quality of water
 - Draw insights from our data 
 - Reduce the time spent waiting in queues to access water 
@@ -72,8 +72,8 @@ water_source;
 
 ![biological_results](https://github.com/user-attachments/assets/a0fdda55-bac8-49d2-adbc-ce680e2b1e1a)
 
-- First, we create a backup table in case there are errors in our code, we can copy a new one and try again
-- From the table, we also notice some descriptions begin with 'Clean' even when the biological contaminant is above 0.01
+- Firstly, I create a backup table in case there are errors in our code and I can copy a new one and try again
+- From the table, I also notice some descriptions begin with 'Clean' even when the biological contaminant is above 0.01
 - The description column should only have 'Clean' when the biological contaminant is below 0.01.
 - Therefore, 'Clean' has to be removed from all descriptions where the biological > 0.01
 
@@ -210,7 +210,7 @@ SELECT 23740/(15910+23740)*100;
 
 ![image](https://github.com/user-attachments/assets/9228ec24-76b3-4b21-ae3d-5c64674483d6)
 
-- About 60% of water sources in Maji Ndogo are from Rural areas
+- About 60% of water sources in ikot-abasi are from Rural areas
 - How many wells, taps and rivers are there? 
 
 ````sql
@@ -248,10 +248,10 @@ round(sum(number_of_people_served)) DESC;
 
 ![image](https://github.com/user-attachments/assets/c2bac246-080a-4b33-8d01-f068f52661bc)
 
-- 43% of citizens of Maji Ndogo use public taps
-- 31% of Maji Ndogo has taps installed at home, but (14/31), i.e. 45% are broken due to damaged infrastructure
-- 18% of Maji Ndogo uses wells, but only 26% of them are clean
-- A systemic approach to providing solutions to the water problems in Maji Ndogo is to start with the sources affecting most people
+- 43% of citizens of ikot-abasi use public taps
+- 31% of ikot-abasi has taps installed at home, but (14/31), i.e. 45% are broken due to damaged infrastructure
+- 18% of ikot-abasi uses wells, but only 26% of them are clean
+- A systemic approach to providing solutions to the water problems in ikot-abasi is to start with the sources affecting most people
   
 ````sql
 SELECT 
